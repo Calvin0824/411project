@@ -7,7 +7,7 @@ const port = process.env.PORT
 
 app.use(express.json())
 
-app.get('/user', (req, res) => {
+app.get('/users', (req, res) => {
     res.json({ message: 'Get users'})
 })
 
