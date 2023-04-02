@@ -1,9 +1,14 @@
 import express from 'express'
+import colors from 'colors'
 import userRoutes from './routes/users.js';
 import { errorHandler } from './middleware/errorMiddleware.js'
+import connectDB from './config/db.js'
 import dotenv from 'dotenv';
 dotenv.config();
 import mongoose from 'mongoose'
+
+connectDB()
+
 const app = express()
 const port = process.env.PORT
 
