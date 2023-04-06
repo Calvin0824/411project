@@ -5,6 +5,7 @@ import { errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 import dotenv from 'dotenv';
 dotenv.config();
+import { getFlights } from './controllers/flightController.js';
 import mongoose from 'mongoose'
 
 connectDB()
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 app.use('/users', userRoutes)
+app.use(getFlights)
 
 app.use(errorHandler)
 
