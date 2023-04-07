@@ -1,6 +1,7 @@
 import express from 'express'
 const router = express.Router()
+import { getFlights } from '../controllers/flightController.js'
 
+router.route('/').get(getFlights)
 
-
-module.exports = router
+export default router
