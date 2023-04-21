@@ -1,4 +1,3 @@
-import NavBar from "../components/NavBar.js";
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import { set } from 'mongoose';
@@ -39,7 +38,6 @@ export default function Login() {
 
   return (
     <>
-        <NavBar/>
       <div id='signInDiv'></div>
       { Object.keys(user).length != 0 && 
         <button onClick={ (e) => handleSignOut(e)}>sign out</button>
