@@ -24,15 +24,20 @@ function Request() {
         }
     }
 
+    function handleOnClick() {
+      console.log(iata);
+      console.log(date);
+    };
+
     return (
         <>
         <head>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <h1>Hello {user?.name}</h1>
-<form id="response-form">
+<div class="dropdown">
   <label for="IATA-select">What city would you like to visit?</label>
-  <select id="IATA-select" name="IATA">
+  <select id="IATA-select" name="IATA" value={iata} onChange={(event) => setIATA(event.target.value)}>
     <option value="">-- Please select a city to visit --</option>
     <option value="BER">Berlin</option>
     <option value="ORD">Chicago</option>
@@ -56,18 +61,20 @@ function Request() {
     <option value="SYD">Sydney</option>
 
   </select>
+  </div>
 
+  <div class="calendar">
   <label for="duration-input">When would you like to return?</label>
-  <input type="date" id="duration-input" name="duration"/>
+  <input type="date" id="duration-input" name="duration" onChange={(event) => setDate(event.target.value)}/>
+  </div>
+
 
   <div class="form-actions">
-    <button type="submit" class="button button-primary">Submit</button>
-    <button type="reset" class="button">Reset</button>
+    <button type="submit" class="button button-primary" onClick={handleOnClick}>Submit</button>
   </div>
   <div class="logout">
     <Logout/>
   </div>
-</form>
         </>
     )
 }
