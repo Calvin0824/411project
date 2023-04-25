@@ -1,26 +1,31 @@
-import express from 'express'
-import colors from 'colors'
+import express from 'express';
+import colors from 'colors';
 import userRoutes from './routes/users.js';
-import { errorHandler } from './middleware/errorMiddleware.js'
-import connectDB from './config/db.js'
+import { errorHandler } from './middleware/errorMiddleware.js';
+import connectDB from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
-import flightRoutes from './routes/flights.js';
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+import cors from 'cors';
+import cookieSession from 'cookie-session';
+import user from './models/userModel.js';
+import crypto from 'crypto';
+const sessionSecret = crypto.randomBytes(32).toString('hex');
 
-connectDB()
+connectDB();
 
-const app = express()
-const port = process.env.PORT
+const app = express();
+const port = process.env.PORT;
 
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(cors({origin: true}))
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
-app.use('/users', userRoutes)
-app.use('/flights', flightRoutes)
+app.use('/users', userRoutes);
 
-app.use(errorHandler)
+app.use(errorHandler);
 
-app.listen(3000, () => {
-    console.log('Node API app is running on port 3000')
-})
+app.listen(4000, () => {
+    console.log('Node API app is running on port 4000')
+});
+

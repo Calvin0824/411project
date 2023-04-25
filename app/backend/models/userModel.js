@@ -1,19 +1,34 @@
+import { Timestamp } from 'mongodb'
 import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema(
     {
+        email:{
+            type: String,
+            required: true
+        },
         name:{
             type: String,
             required: true
         },
-        username:{
+        imageURL: {
             type: String,
             required: true
         },
-        password: {
+        userId: {
+            type: String,
+            required: true
+        },
+        email_verified: {
+            type: Boolean,
+            required: true
+        },
+        auth_time: {
             type: String,
             required: true
         }
+    }, {
+        timestamps: true
     }
 )
 

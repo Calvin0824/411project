@@ -1,53 +1,57 @@
-import { useEffect, useState } from 'react';
-import jwt_decode from 'jwt-decode';
-import { set } from 'mongoose';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { app } from '../config/firebase.js';
+import { validateUser } from '../api/oAuth.js';
+import Logout from '../components/logout.js';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [user, setUser] = useState({});
-  
-  function handleCallbackResponse(response) {
-    console.log("Encoded JWT ID token: " + response.credential);
-    var userObject = jwt_decode(response.credential);
-    console.log(userObject)
-    setUser(userObject)
-    document.getElementById("signInDiv").hidden = true;
-  }
 
-  function handleSignOut(event) {
-    setUser({});
-    document.getElementById("signInDiv").hidden = false
-  }
+    const [ auth, setAuth ] = useState(false || window.localStorage.getItem("auth") === "true");
+    const [ user, setUser ] = useState(null)
+    const navigate = useNavigate();
+    const firebaseAuth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-  useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-    client_id: "259863739990-of54uicbvqqdhcl4ahsuk96avimloobb.apps.googleusercontent.com",
-    callback: handleCallbackResponse
-    })
+    const loginWithGoogle = async () => {
+        await signInWithPopup(firebaseAuth, provider).then((userCred) => {
+            if (userCred) {
+                setAuth(true);
+                window.localStorage.setItem("auth", "true");
+            }
+            if (user !== null) {
+                console.log(user)
+                navigate('/request', { state: { user } });
+            }
+        });
+    };
 
-    google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      { theme: "outline", size: "large"}
-    )
+    useEffect(() => {
+        firebaseAuth.onAuthStateChanged((userCred) => {
+            if (userCred){
+                userCred.getIdToken().then(token => {
+                    window.localStorage.setItem("auth", "true");
+                    validateUser(token).then((data) => {
+                        setUser(data.user);
+                    });
+                });
+            } else {
+                setAuth(false);
+                setUser(null);
+                window.localStorage.setItem("auth", "false");
+            }
+        })
+    }, [])
 
-  },[]);
-
-  // if no user then: show sign in button
-  // if user then: show log out button
-
-
-  return (
-    <>
-      <div id='signInDiv'></div>
-      { Object.keys(user).length != 0 && 
-        <button onClick={ (e) => handleSignOut(e)}>sign out</button>
-      }
-      { user &&
-        <div> 
-          <img src={user.picture}></img>
-          <h3>{user.name}</h3>
+    return (
+        <>
+        <div className='login'>
+          <button onClick={loginWithGoogle}>Login</button>
         </div>
-      }
-    </>
-  )
-}
+        <div className='logout'>
+            <Logout/>
+        </div>
+        </>
+      );
+    }
