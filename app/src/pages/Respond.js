@@ -1,28 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios'
 import { set } from 'mongoose';
-
-function withAuth(Component) {
-    return function AuthenticatedComponent(props) {
-      const navigate = useNavigate();
-      const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-      useEffect(() => {
-        // Check if the user is already authenticated
-        const user = window.localStorage.getItem("auth");
-        if (user) {
-          setIsLoggedIn(true);
-          return;
-        }
-      
-        // If the user is not authenticated, redirect to the login page
-        navigate('/login');
-      }, [setIsLoggedIn]);
-  
-      return <Component {...props} />;
-    };
-  }
+import Logout from '../components/logout.js';
+import withAuth from '../components/withAuth.js';
 
 function Respond() {
 
@@ -32,7 +13,7 @@ function Respond() {
     async function Weather(city) {
         try {
             const weathers = await axios.get(
-                `http://api.weatherapi.com/v1/forecast.json?key=40de535bf85e4305b02183509231004&q=${city}&days=7&aqi=no&alerts=no`
+                `http://api.weatherapi.com/v1/forecast.json?key=40de535bf85e4305b02183509231004&q=singapore&days=7&aqi=no&alerts=no`
                 );
             setWeather(weathers.data.forecast.forecastday);
             console.log(weather);
@@ -60,6 +41,7 @@ function Respond() {
         <>
             <button onClick={Weather}>Get weather</button>
             <button onClick={Flight}>Get flight</button>
+            <Logout/>
             <table>
                 <thead>
                     <tr>

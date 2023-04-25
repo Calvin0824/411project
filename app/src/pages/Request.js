@@ -2,28 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logout from '../components/logout.js';
-
-
-function withAuth(Component) {
-  return function AuthenticatedComponent(props) {
-    const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-      // Check if the user is already authenticated
-      const user = window.localStorage.getItem("auth");
-      if (user) {
-        setIsLoggedIn(true);
-        return;
-      }
-    
-      // If the user is not authenticated, redirect to the login page
-      navigate('/login');
-    }, [setIsLoggedIn]);
-
-    return <Component {...props} />;
-  };
-}
+import withAuth from '../components/withAuth.js';
 
 function Request() {
 
@@ -50,7 +29,7 @@ function Request() {
         <head>
   <link rel="stylesheet" href="style.css"/>
 </head>
-<h1>Hello {user.name}</h1>
+<h1>Hello {user?.name}</h1>
 <form id="response-form">
   <label for="IATA-select">What city would you like to visit?</label>
   <select id="IATA-select" name="IATA">
