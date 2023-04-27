@@ -6,27 +6,16 @@ import withAuth from '../components/withAuth.js';
 
 function Request() {
 
-    const [ city, setCity ] = useState("");
+    const navigate = useNavigate();
     const [ date, setDate ] = useState("");
     const [ iata, setIATA ] = useState("");
     const { state } = useLocation();
     const user = state?.user;
 
-    async function City() {
-        try {
-            const cities = axios.get(
-                `https://airlabs.co/api/v9/cities?city_code=SIN&api_key=bff77658-dd93-4f22-865b-0ceb0b3c688e`
-                );
-            setCity((await cities).data.response[0].name)
-            console.log(city)
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
     function handleOnClick() {
       console.log(iata);
       console.log(date);
+      navigate('/respond', { state: { iata, date } });    
     };
 
     return (
