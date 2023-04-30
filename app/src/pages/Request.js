@@ -9,13 +9,15 @@ function Request() {
     const navigate = useNavigate();
     const [ date, setDate ] = useState("");
     const [ iata, setIATA ] = useState("");
+    const [ users, setUsers ] = useState("");
     const { state } = useLocation();
-    const user = state?.user;
+    const user = state?.user
 
     function handleOnClick() {
+      setUsers(state?.user);
       console.log(iata);
       console.log(date);
-      navigate('/respond', { state: { iata, date } });    
+      navigate('/respond', { state: { iata, date, user } });    
     };
 
     return (
@@ -54,7 +56,12 @@ function Request() {
 
   <div class="calendar">
   <label for="duration-input">When would you like to return?</label>
-  <input type="date" id="duration-input" name="duration" onChange={(event) => setDate(event.target.value)}/>
+  <input 
+  type="date" 
+  id="duration-input" 
+  name="duration" 
+  onChange={(event) => setDate(event.target.value)}
+  min={new Date().toISOString().split('T')[0]} />
   </div>
 
 

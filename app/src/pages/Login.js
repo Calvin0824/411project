@@ -15,16 +15,16 @@ export default function Login() {
     const provider = new GoogleAuthProvider();
 
     const loginWithGoogle = async () => {
-        await signInWithPopup(firebaseAuth, provider).then((userCred) => {
-            if (userCred) {
-                setAuth(true);
-                window.localStorage.setItem("auth", "true");
-            }
-            if (user !== null) {
-                console.log(user)
-                navigate('/request', { state: { user } });
-            }
-        });
+        const userCred = await signInWithPopup(firebaseAuth, provider);
+        if (userCred) {
+            setAuth(true);
+            window.localStorage.setItem("auth", "true");
+            const token = await userCred.user.getIdToken();
+            console.log(token);
+            const data = await validateUser(token);
+            setUser(data.user);
+            navigate('/request', { state: { user: data.user } });
+        }
     };
 
     useEffect(() => {

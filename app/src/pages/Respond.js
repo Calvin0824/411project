@@ -13,6 +13,7 @@ function Respond() {
     const { state } = useLocation();
     const iata = state?.iata;
     const date = state?.date;
+    const user = state?.user;
     const navigate = useNavigate();
 
     async function Weather(city) {
@@ -59,7 +60,7 @@ function Respond() {
     }
 
     function Return() {
-        navigate('/request');
+        navigate('/request', { state: { user }});
     };
 
     useEffect(() => {
