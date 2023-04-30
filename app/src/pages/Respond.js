@@ -64,7 +64,11 @@ function Respond() {
     };
 
     useEffect(() => {
-        City();
+        if (user === undefined) {
+            navigate("/login");
+        } else {
+            City();
+        }
     },[city]);
 
     return (

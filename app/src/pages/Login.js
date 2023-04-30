@@ -49,9 +49,6 @@ export default function Login() {
         <div className='login'>
           <button onClick={loginWithGoogle}>Login</button>
         </div>
-        <div className='logout'>
-            <Logout/>
-        </div>
         </>
       );
     }

@@ -6,25 +6,40 @@ import withAuth from '../components/withAuth.js';
 
 function Request() {
 
-    const navigate = useNavigate();
-    const [ date, setDate ] = useState("");
-    const [ iata, setIATA ] = useState("");
-    const [ users, setUsers ] = useState("");
-    const { state } = useLocation();
-    const user = state?.user
+  const navigate = useNavigate();
+  const [ date, setDate ] = useState("");
+  const [ iata, setIATA ] = useState("");
+  const [ users, setUsers ] = useState("");
+  const [ popup, setPopUp ] = useState(false);
+  const { state } = useLocation();
+  const user = state?.user
 
-    function handleOnClick() {
-      setUsers(state?.user);
-      console.log(iata);
-      console.log(date);
+  function handleOnClick() {
+    setUsers(state?.user);
+    console.log(iata);
+    console.log(date);
+    if ( iata === "" || date === "" ) {
+      TogglePopup();
+    } else {
       navigate('/respond', { state: { iata, date, user } });    
-    };
+    }
+  };
 
-    return (
-        <>
-        <head>
+  function TogglePopup() {
+    setPopUp(!popup);
+  }
+
+  useEffect(() => {
+    if (user === undefined) {
+      navigate("/login");
+    }
+  },[]);
+
+  return (
+      <>
+      <head>
   <link rel="stylesheet" href="style.css"/>
-</head>
+  </head>
 <h1>Hello {user?.name}</h1>
 <div class="dropdown">
   <label for="IATA-select">What city would you like to visit?</label>
@@ -69,8 +84,17 @@ function Request() {
     <button type="submit" class="button button-primary" onClick={handleOnClick}>Submit</button>
   </div>
   <div class="logout">
-    <Logout/>
+      <Logout/>
   </div>
+  <>
+    {popup && (
+    <div className="popup">
+      <h2>ERROR</h2>
+      <p>Please fill in all fields before submitting.</p>
+      <button onClick={TogglePopup}>Close</button>
+    </div>
+    )}
+  </>
         </>
     )
 }
