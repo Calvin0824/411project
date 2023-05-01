@@ -70,7 +70,7 @@ function Request() {
   </div>
 
   <div class="calendar">
-  <label for="duration-input">When would you like to return?</label>
+  <label for="duration-input">When would you like to Visit?</label>
   <input 
   type="date" 
   id="duration-input" 
