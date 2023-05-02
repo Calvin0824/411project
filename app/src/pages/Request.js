@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logout from '../components/logout.js';
 import withAuth from '../components/withAuth.js';
+import '../css/Request.css';
 
 function Request() {
 
