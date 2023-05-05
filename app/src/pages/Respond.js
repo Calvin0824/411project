@@ -33,7 +33,7 @@ function Respond() {
         try {
             const flights = await axios.get(`https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=BOS&destinationLocationCode=${iata}&departureDate=${date}&adults=1&nonStop=true&currencyCode=USD&max=250`, {
                 headers: {
-                  'Authorization': 'Bearer 24HYOkLOcNtNO0MatMoKQCmOTqmd',
+                  'Authorization': 'Bearer jWlAdXKbVgEpixSobbUQBby3GDv0',
                   'Content-Type': 'application/json'
                 }
               });
@@ -48,7 +48,7 @@ function Respond() {
         try {
             const cities = await axios.get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=AIRPORT&keyword=${iata}&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=analytics.travelers.score&view=LIGHT`, {
                 headers: {
-                    'Authorization': 'Bearer HtGWETUJi8GkDiiPz87xIdn0QAPy',
+                    'Authorization': 'Bearer Vg87YwrNJARAp21EUItTtIfMXANl',
                     'Content-Type': 'application/json'
                 }
             });
